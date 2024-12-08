@@ -2,6 +2,8 @@
 
 from django import forms
 from django.contrib.auth import authenticate
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
 
 # Foydalanuvchi tizimga kirishi uchun forma yaratish
 class KirishForm(forms.Form):
@@ -46,3 +48,59 @@ class KirishForm(forms.Form):
 				raise forms.ValidationError('Foydalanuvchi nomi yoki parol noto\'g\'ri.')
 		return t_data # Tozalangan ma'lumotlarni qaytarish
 
+class FROForm(UserCreationForm):
+    """
+    FROForm foydalanuvchini ro'yxatdan o'tkazish uchun mo'ljallangan forma.
+    Django UserCreationForm dan kengaytirilgan.
+    """
+    class Meta:
+        """
+        Meta klass formaga oid sozlamalarni belgilaydi.
+        Model: User
+        Maydonlar: username, email, first_name, last_name, password1, password2
+        """
+        model = User
+        fields = ['username', 'email', 'first_name', 'last_name', 'password1', 'password2']
+
+    def __init__(self, *args, **kwargs):
+        """
+        Formaning atributlari va maxsus sozlamalarini o'rnatish uchun ishlatiladi.
+        Maydonlarga Bootstrap klasslarini qo'shadi va kerakli matnlarni belgilaydi.
+        """
+        super().__init__(*args, **kwargs)
+
+        # Formadagi barcha maydonlarni sozlash
+        for field_name in self.fields:
+            self.fields[field_name].widget.attrs['class'] = 'form-control'  # Bootstrap klass
+            self.fields[field_name].label_suffix = ''  # Yorliqdan keyingi standart ':' belgisi olib tashlanadi
+            self.fields[field_name].help_text = ''  # Django-ning standart yordam matni olib tashlanadi
+
+        # Maxsus placeholderlar
+        self.fields['username'].widget.attrs['placeholder'] = 'Foydalanuvchi nomini yarating'
+        self.fields['email'].widget.attrs['placeholder'] = 'Elektron pochtangizni kiriting'
+        self.fields['first_name'].widget.attrs['placeholder'] = 'Ismingiz'
+        self.fields['last_name'].widget.attrs['placeholder'] = 'Familiyangiz'
+        self.fields['password1'].widget.attrs['placeholder'] = 'Parol yarating'
+        self.fields['password2'].widget.attrs['placeholder'] = 'Parolni takrorlang'
+
+        # Yorliqlarni aniqlash
+        self.fields['username'].label = 'Foydalanuvchi nomi'
+        self.fields['email'].label = 'Elektron pochta'
+        self.fields['first_name'].label = 'Ism'
+        self.fields['last_name'].label = 'Familiya'
+        self.fields['password1'].label = 'Parol'
+        self.fields['password2'].label = 'Parolni tasdiqlang'
+
+    def clean_email(self):
+        """
+        Emailni tekshiradi va allaqachon ro'yxatdan o'tgan bo'lsa, xatolik chiqaradi.
+        
+        Raises:
+            forms.ValidationError: Agar email mavjud bo'lsa.
+        Returns:
+            str: Tozalangan va tasdiqlangan email.
+        """
+        email = self.cleaned_data.get('email')
+        if User.objects.filter(email=email).exists():
+            raise forms.ValidationError("Bu email allaqachon ro'yxatdan o'tgan.")
+        return email

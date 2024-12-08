@@ -12,10 +12,10 @@ def kirish(r):
 	if r.method == 'POST': # Foydalanuvchi ma'lumot yuborgan bo'lsa
 		form = KirishForm(r.POST) # Formani POST ma'lumotlari bilan to'ldirish
 		if form.is_valid(): # Forma validatsiyadan o‘tdimi?
-			f_nomi = form.cleaned_data.get('f_name') # Foydalanuvchi nomini olish
+			f_nomi = form.cleaned_data.get('f_nomi') # Foydalanuvchi nomini olish
 			parol = form.cleaned_data.get('parol') # Parolni olish
-			f = authenticate(username=f_name, password=parol) # Autentifikatsiya qilish
-			if f is None: # Agar foydalanuvchi mavjud bo'lsa
+			f = authenticate(username=f_nomi, password=parol) # Autentifikatsiya qilish
+			if f is not None: # Agar foydalanuvchi mavjud bo'lsa
 				login(r, f) # Foydalanuvchini tizimga kiritish
 				return redirect('uy') # Muvaffaqiyatli login bo'lsa, asosiy sahifaga yo'naltirish
 			else:
