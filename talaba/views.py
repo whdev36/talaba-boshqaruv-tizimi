@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
-from .forms import KirishForm
+from .forms import KirishForm, FROForm
 
 
 # Bosh sahifa
@@ -24,3 +24,16 @@ def kirish(r):
 		form = KirishForm() # GET so‘rovda bo‘sh forma yuborish
 
 	return render(r, 'kirish.html', {'form': form}) # Formani sahifaga uzatish
+
+def ro(r):
+	if r.method == 'POST':  # Foydalanuvchi ma'lumot yuborgan bo'lsa
+		form = FROForm(r.POST)  # Formani foydalanuvchi yuborgan ma'lumotlar bilan to'ldirish
+		if form.is_valid():  # Forma validatsiyadan o'tdimi?
+			f = form.save()  # Yangi foydalanuvchini yaratish va saqlash
+			login(r, f)  # Yangi foydalanuvchini tizimga kiritish
+			return redirect('uy')  # Muvaffaqiyatli ro'yxatdan o'tgach, asosiy sahifaga yo'naltirish
+	else:
+		form = FROForm()  # GET so'rovda bo'sh forma yaratish
+
+	# Formani sahifaga yuborish
+	return render(r, 'ro.html', {'form': form})

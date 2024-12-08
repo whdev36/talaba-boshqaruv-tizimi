@@ -1,0 +1,13 @@
+<!-- ro.html -->
+
+{% extends 'asos.html' %}
+
+{% block title %}Ro'yxatdan o'tish{% endblock %}
+
+{% block content %}
+	<form method="post">
+		{% csrf_token %}
+		{{ form.as_p }}
+		<button class="btn btn-primary">Ro'yxatdan o'tish</button>
+	</form>
+{% endblock %}
