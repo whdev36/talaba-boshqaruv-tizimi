@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from .forms import KirishForm, FROForm
 
 
@@ -37,3 +37,7 @@ def ro(r):
 
 	# Formani sahifaga yuborish
 	return render(r, 'ro.html', {'form': form})
+
+def chiqish(r):
+	logout(r)
+	return redirect('uy') # Bosh safihaga yo'naltirish
