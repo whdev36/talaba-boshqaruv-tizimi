@@ -24,7 +24,8 @@ class KirishForm(forms.Form):
 			'autofocus': True # Sahifa yuklanganda diqqatni ushbu maydonga qaratish
 		}),
 		label='Foydalanuvchi nomi', # Maydon uchun ko'rinadigan yorliq
-		max_length=150 # Foydalanuvchi nomining maksimal uzunligini belgilash
+		max_length=150, # Foydalanuvchi nomining maksimal uzunligini belgilash
+        label_suffix=''
 	)
 
 	parol = forms.CharField( # Parolni kiritish uchun maydon yaratiladi
@@ -32,7 +33,8 @@ class KirishForm(forms.Form):
 			'class': 'form-control', # Maydon CSS stilini qo'llash uchun klassni belgilash
 			'placeholder': 'Parol kiriting' # Foydalanuvchini parol kiritish kerakligini ko'rsatish
 		}),
-		label='Parol' # Maydon uchun ko'rinadigan yorliq
+		label='Parol', # Maydon uchun ko'rinadigan yorliq
+        label_suffix=''
 	)
 
 	def clean(self):
@@ -94,7 +96,7 @@ class FROForm(UserCreationForm):
     def clean_email(self):
         """
         Emailni tekshiradi va allaqachon ro'yxatdan o'tgan bo'lsa, xatolik chiqaradi.
-        
+
         Raises:
             forms.ValidationError: Agar email mavjud bo'lsa.
         Returns:

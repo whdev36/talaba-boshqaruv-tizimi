@@ -5,9 +5,14 @@
 {% block title %}Kirish{% endblock %}
 
 {% block content %}
-	<form method="post">
-		{% csrf_token %}
-		{{ form.as_p }}
-		<button class="btn btn-primary">Kirish</button>
-	</form>
+	<div class="row">
+		<div class="col-md-6 offset-md-3">
+			<form method="post">
+				<h1 class="mb-5">Kirish</h1>
+				{% csrf_token %}
+				{{ form.as_p }}
+				<button class="btn btn-primary w-100">Kirish</button>
+			</form>
+		</div>
+	</div>
 {% endblock %}
