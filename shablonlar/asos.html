@@ -20,6 +20,34 @@
 <body>
 	{% include 'nav.html' %}
 	<div class="container my-5">
+
+		<!-- Xabarlar qismi -->
+		{% if messages %}
+			{% for message in messages %}
+				<div class="alert 
+					{% if message.tags != 'error' %}
+						alert-{{ message.tags }}
+					{% else %}
+						alert-danger
+					{% endif %}
+					alert-dismissible fade show" role="alert">
+					<strong>
+						{% if message.tags == 'success' %}
+							Muvaffaqiyat! 
+						{% elif message.tags == 'warning' %}
+							Ogohlantirish! 
+						{% elif message.tags == 'error' %}
+							Xatolik! 
+						{% elif message.tags == 'info' %}
+							Ma'lumot! 
+						{% endif %}
+					</strong>
+					{{ message }}
+					<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+				</div>
+			{% endfor %}
+		{% endif %}
+
 		{% block content %}
 		{% endblock %}
 	</div>
