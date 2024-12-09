@@ -1,6 +1,6 @@
 # Talaba Boshqaruv Tizimi (Student Management System)
 
-Bu loyiha talaba boshqaruvi tizimini yaratish uchun mo'ljallangan Django ilovasidir. Ushbu tizim yordamida talaba ma'lumotlarini saqlash, yangilash, o'chirish va ko'rish mumkin.
+Bu loyiha, **o'rganish va o'rgatish** maqsadida yaratilgan Django ilovasidir. Talabalar ma'lumotlarini boshqarish uchun asosiy tizim funksiyalarini o'rganishga yordam beradi. Ushbu tizim yordamida talaba ma'lumotlarini saqlash, yangilash, o'chirish va ko'rish mumkin.
 
 ## Xususiyatlar
 
