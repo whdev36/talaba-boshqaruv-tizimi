@@ -2,10 +2,9 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from .forms import KirishForm, FROForm
 from django.contrib import messages as m
-from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
-from .models import TestNatija
-import json
+# from django.http import JsonResponse
+# from django.views.decorators.csrf import csrf_exempt
+# import json
 
 
 # Bosh sahifa
@@ -64,18 +63,3 @@ def chiqish(r):
     logout(r)  # Foydalanuvchini tizimdan chiqarish
     m.success(r, "Tizimdan muvaffaqiyatli chiqdingiz.")  # Xabar qo'shish
     return redirect('uy')  # Bosh sahifaga yo'naltirish
-
-def test(r):
-	return render(r, 'test.html', {})
-
-@csrf_exempt # CSFF himoyasini o'chirish
-def test_natija(r):
-	if r.method == 'POST':
-		malumot = json.loads(r.body)
-		ball = malumot.get('ball', 0)
-		talaba = r.user
-
-		# Test natijasini saqlash
-		TestNatija.objects.create(talaba=talaba, ball=ball)
-		return JsonResponse({'status': 'success', 'message': 'Natija saqlandi'})
-	return JsonResponse({'status': 'error', 'message': 'Metod qo\'llab-quvvatlanmaydi'})
